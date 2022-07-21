@@ -13,22 +13,20 @@ import java.nio.file.Path;
 public class JsonParserTests {
 
     private Cart cart;
-    private File file;
     private Parser parser;
-    private final String cartName = "andrew-cart6";
-    public static final String EXPECTED_CART_RESULT = "{\"cartName\":\"andrew-cart6\",\"realItems\":[],\"virtualItems\":[],\"total\":0.0}";
+    private final String cartName = "andrew-cart";
+    public static final String EXPECTED_CART_RESULT = "{\"cartName\":\"testCart\",\"realItems\":[],\"virtualItems\":[],\"total\":0.0}";
 
 
     @BeforeEach
     public void beforeTests() {
-        file = new File("src/main/resources/" + cartName + ".json");
         parser = new JsonParser();
     }
 
-    @Disabled("Disabled")
+    //    @Disabled("Disabled")
     @Test
     public void testReadFromFile() {
-        cart = parser.readFromFile(file);
+        cart = parser.readFromFile(new File("src/main/resources/" + cartName + ".json"));
         Assertions.assertAll(
                 () -> Assertions.assertEquals(cart.getCartName(), cartName),
                 () -> Assertions.assertEquals(cart.getTotalPrice(), 38445.479999999996));
@@ -36,9 +34,9 @@ public class JsonParserTests {
 
     @Test
     public void testWriteToFile() throws IOException {
-        cart = new Cart(cartName);
+        cart = new Cart("testCart");
         parser.writeToFile(cart);
-        String actualResult = Files.readString(Path.of("src/main/resources/andrew-cart6.json"));
+        String actualResult = Files.readString(Path.of("src/main/resources/testCart.json"));
         Assertions.assertEquals(EXPECTED_CART_RESULT, actualResult);
     }
 
@@ -52,7 +50,7 @@ public class JsonParserTests {
     @AfterEach
     public void deleteFile() {
         try {
-            File file = new File("src/main/resources/" + cartName + ".json");
+            File file = new File("src/main/resources/testCart.json");
             file.deleteOnExit();
         } catch (Exception ignore) {}
     }
