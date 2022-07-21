@@ -16,6 +16,7 @@ public class JsonParserTests {
     private Parser parser;
     private final String cartName = "andrew-cart";
     public static final String EXPECTED_CART_RESULT = "{\"cartName\":\"testCart\",\"realItems\":[],\"virtualItems\":[],\"total\":0.0}";
+    public static final String TEST_CART_PATH = "src/main/resources/testCart.json";
 
 
     @BeforeEach
@@ -36,7 +37,7 @@ public class JsonParserTests {
     public void testWriteToFile() throws IOException {
         cart = new Cart("testCart");
         parser.writeToFile(cart);
-        String actualResult = Files.readString(Path.of("src/main/resources/testCart.json"));
+        String actualResult = Files.readString(Path.of(TEST_CART_PATH));
         Assertions.assertEquals(EXPECTED_CART_RESULT, actualResult);
     }
 
@@ -50,7 +51,7 @@ public class JsonParserTests {
     @AfterEach
     public void deleteFile() {
         try {
-            File file = new File("src/main/resources/testCart.json");
+            File file = new File(TEST_CART_PATH);
             file.deleteOnExit();
         } catch (Exception ignore) {}
     }
