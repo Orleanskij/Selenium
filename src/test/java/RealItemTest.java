@@ -1,15 +1,13 @@
-import org.junit.Assert;
 import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
 import shop.RealItem;
 
 public class RealItemTest {
 
     @Test
-    public void realItemWeightTest() {
+    public void TestRealItemWeight() {
         RealItem realItem = new RealItem();
-        realItem.setName("Audi");
-        realItem.setPrice(32026.9);
         realItem.setWeight(1560);
-        Assert.assertNotNull(realItem.getWeight());
+        Assertions.assertTrue(realItem.toString().contains("1560"));
     }
 }

@@ -1,7 +1,6 @@
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.Assertions;
 import shop.Cart;
 import shop.RealItem;
 
@@ -16,20 +15,24 @@ public class CartTests {
         car = new RealItem();
     }
 
-    @Tag("Cart Test")
     @Test
-    public void getTotalPriceTest() {
+    public void testPriceCalculationWhenAddingItem() {
         car.setName("Audi");
         car.setPrice(32026.9);
         car.setWeight(1560);
 
         cart.addRealItem(car);
-        Assert.assertNotEquals(cart.getTotalPrice(), 0.0);
+        Assertions.assertEquals(cart.getTotalPrice(), 38432.28);
     }
 
-    @Tag("Cart Test")
     @Test
-    public void getCartNameTest() {
-        Assert.assertEquals(cart.getCartName(), "andrew-cart");
+    public void testPriceCalculationWhenDeletingItem() {
+        car.setName("Audi");
+        car.setPrice(32026.9);
+        car.setWeight(1560);
+
+        cart.addRealItem(car);
+        cart.deleteRealItem(car);
+        Assertions.assertNotEquals(cart.getTotalPrice(), 38432.28);
     }
 }
