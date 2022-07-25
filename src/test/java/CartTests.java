@@ -1,6 +1,7 @@
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+
+import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 import shop.Cart;
 import shop.RealItem;
 
@@ -9,7 +10,7 @@ public class CartTests {
     Cart cart;
     RealItem car;
 
-    @BeforeEach
+    @BeforeMethod(groups = "calculation")
     public void beforeTest() {
         cart = new Cart("andrew-cart");
         car = new RealItem();
@@ -19,14 +20,14 @@ public class CartTests {
         cart.addRealItem(car);
     }
 
-    @Test
+    @Test(groups = "calculationAdd")
     public void testPriceCalculationWhenAddingItem() {
-        Assertions.assertEquals(cart.getTotalPrice(), 38432.28);
+        Assert.assertEquals(cart.getTotalPrice(), 38432.28);
     }
 
-    @Test
+    @Test(groups = "calculationDelete")
     public void testPriceCalculationWhenDeletingItem() {
         cart.deleteRealItem(car);
-        Assertions.assertNotEquals(cart.getTotalPrice(), 38432.28);
+        Assert.assertNotEquals(cart.getTotalPrice(), 38432.28);
     }
 }

@@ -1,6 +1,6 @@
-import org.junit.jupiter.api.*;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ValueSource;
+import org.testng.Assert;
+import org.testng.annotations.*;
+import org.testng.asserts.SoftAssert;
 import parser.JsonParser;
 import parser.NoSuchFileException;
 import parser.Parser;
@@ -19,40 +19,45 @@ public class JsonParserTests {
     public static final String TEST_CART_PATH = "src/main/resources/testCart.json";
 
 
-    @BeforeEach
+    @BeforeMethod(groups = {"JSON", "beforegroup"})
     public void beforeTests() {
         parser = new JsonParser();
     }
 
-    //    @Disabled("Disabled")
-    @Test
+    @Ignore
+    @Test(groups = {"JSON", "read_write"})
     public void testReadFromFile() {
         cart = parser.readFromFile(new File("src/main/resources/" + cartName + ".json"));
-        Assertions.assertAll(
-                () -> Assertions.assertEquals(cart.getCartName(), cartName),
-                () -> Assertions.assertEquals(cart.getTotalPrice(), 38445.479999999996));
+        SoftAssert softAssert = new SoftAssert();
+        softAssert.assertEquals(cart.getCartName(), cartName);
+        softAssert.assertEquals(cart.getTotalPrice(), 38445.479999999996);
+        softAssert.assertAll();
     }
 
-    @Test
+    @Test(groups = {"JSON", "read_write"})
     public void testWriteToFile() throws IOException {
         cart = new Cart("testCart");
         parser.writeToFile(cart);
         String actualResult = Files.readString(Path.of(TEST_CART_PATH));
-        Assertions.assertEquals(EXPECTED_CART_RESULT, actualResult);
+        Assert.assertEquals(EXPECTED_CART_RESULT, actualResult);
     }
 
-    @ParameterizedTest
-    @ValueSource(strings = {"andrew-cart2", "andrew-cart3", "andrew-cart4", "andrew-cart4", "andrew-cart5"})
+    @DataProvider(name = "testForException")
+    public Object[][] dpMethod() {
+        return new Object[][]{{"andrew-cart2"}, {"andrew-cart3"}, {"andrew-cart4"}, {"andrew-cart4"}, {"andrew-cart5"}};
+    }
+
+    @Test(groups = {"JSON", "exceptionGroup"}, dataProvider = "testForException")
     public void testForException(String fileName) {
-        Parser parser = new JsonParser();
-        Assertions.assertThrows(NoSuchFileException.class, () -> parser.readFromFile(new File("src/main/resources/" + fileName + ".json")));
+        Assert.assertThrows(NoSuchFileException.class, () -> parser.readFromFile(new File("src/main/resources/" + fileName + ".json")));
     }
 
-    @AfterEach
+    @AfterTest
     public void deleteFile() {
         try {
             File file = new File(TEST_CART_PATH);
             file.deleteOnExit();
-        } catch (Exception ignore) {}
+        } catch (Exception ignore) {
+        }
     }
 }

@@ -1,0 +1,24 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd" >
+
+<suite name="Suite3" verbose="1">
+    <test name="Smoke">
+        <groups>
+            <run>
+                <exclude name="exceptionGroup"/>
+                <include name="read_write"/>
+                <include name="calculation"/>
+                <include name="JSON"/>
+            </run>
+        </groups>
+
+        <classes>
+            <class name="JsonParserTests"/>
+            <class name="CartTests">
+                <methods>
+                    <include name="testPriceCalculationWhenAddingItem"/>
+                    <exclude name="testPriceCalculationWhenDeletingItem"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+</suite>
