@@ -2,9 +2,9 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import shop.RealItem;
 
-public class RealItemTest {
+public class RealItemTes {
 
-    @Test
+    @Test(groups = "smoke")
     public void testRealItemWeight() {
         RealItem realItem = new RealItem();
         realItem.setWeight(1560);

@@ -10,7 +10,7 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-public class JsonParserTests {
+public class JsonParserTest {
 
     private Cart cart;
     private Parser parser;
@@ -19,13 +19,13 @@ public class JsonParserTests {
     public static final String TEST_CART_PATH = "src/main/resources/testCart.json";
 
 
-    @BeforeMethod(groups = {"JSON", "beforegroup"})
+    @BeforeMethod(alwaysRun = true)
     public void beforeTests() {
         parser = new JsonParser();
     }
 
     @Ignore
-    @Test(groups = {"JSON", "read_write"})
+    @Test(groups = {"smoke", "regression"})
     public void testReadFromFile() {
         cart = parser.readFromFile(new File("src/main/resources/" + cartName + ".json"));
         SoftAssert softAssert = new SoftAssert();
@@ -34,7 +34,7 @@ public class JsonParserTests {
         softAssert.assertAll();
     }
 
-    @Test(groups = {"JSON", "read_write"})
+    @Test(groups = "smoke")
     public void testWriteToFile() throws IOException {
         cart = new Cart("testCart");
         parser.writeToFile(cart);
@@ -47,12 +47,12 @@ public class JsonParserTests {
         return new Object[][]{{"andrew-cart2"}, {"andrew-cart3"}, {"andrew-cart4"}, {"andrew-cart4"}, {"andrew-cart5"}};
     }
 
-    @Test(groups = {"JSON", "exceptionGroup"}, dataProvider = "testForException")
+    @Test(groups = {"smoke", "regression", "exceptionGroup"}, dataProvider = "testForException")
     public void testForException(String fileName) {
         Assert.assertThrows(NoSuchFileException.class, () -> parser.readFromFile(new File("src/main/resources/" + fileName + ".json")));
     }
 
-    @AfterTest
+    @AfterTest(alwaysRun = true)
     public void deleteFile() {
         try {
             File file = new File(TEST_CART_PATH);

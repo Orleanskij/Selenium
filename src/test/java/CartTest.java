@@ -5,12 +5,12 @@ import org.testng.annotations.Test;
 import shop.Cart;
 import shop.RealItem;
 
-public class CartTests {
+public class CartTest {
 
     Cart cart;
     RealItem car;
 
-    @BeforeMethod(groups = "calculation")
+    @BeforeMethod(alwaysRun = true)
     public void beforeTest() {
         cart = new Cart("andrew-cart");
         car = new RealItem();
@@ -20,12 +20,12 @@ public class CartTests {
         cart.addRealItem(car);
     }
 
-    @Test(groups = "calculationAdd")
+    @Test(groups = {"calculation", "smoke"})
     public void testPriceCalculationWhenAddingItem() {
         Assert.assertEquals(cart.getTotalPrice(), 38432.28);
     }
 
-    @Test(groups = "calculationDelete")
+    @Test(groups = {"calculation", "regression"})
     public void testPriceCalculationWhenDeletingItem() {
         cart.deleteRealItem(car);
         Assert.assertNotEquals(cart.getTotalPrice(), 38432.28);
