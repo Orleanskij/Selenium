@@ -3,33 +3,18 @@ package pages;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import java.sql.Driver;
-import java.util.concurrent.TimeUnit;
 
 public class LoginPage {
 
-    //    @FindBy(xpath = "//div[contains(@class,'x-border-layout-ct')]//span[text()='Error ID']")
-//    private WebElement loginButton;
     private String loginBtn = "//div[@class='HeadBanner-ButtonsWrapper']/a[2]";
     private String submitBtn = "//button[@type='submit']";
     private String loginField = "//input[@name='login']";
     private String passwordField = "//input[@name='passwd']";
     private String logInBtn2 = "//button[@id='passp:sign-in']";
     private String composeButton = "//a[@href='#compose']";
-
-//    @FindBy(xpath = "//button[@type='submit']")
-//    private WebElement submitButton;
-//
-//    @FindBy(xpath = "//input[@name='login']")
-//    private WebElement loginField;
-//
-//    @FindBy(xpath = "//input[@name='login']")
-//    private WebElement passwordField;
 
 
     WebDriver driver;
