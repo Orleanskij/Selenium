@@ -9,12 +9,12 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class LoginPage {
 
-    private String loginBtn = "//div[@class='HeadBanner-ButtonsWrapper']/a[2]";
-    private String submitBtn = "//button[@type='submit']";
-    private String loginField = "//input[@name='login']";
-    private String passwordField = "//input[@name='passwd']";
-    private String logInBtn2 = "//button[@id='passp:sign-in']";
-    private String composeButton = "//a[@href='#compose']";
+    private By loginBtn = By.xpath("//div[@class='HeadBanner-ButtonsWrapper']/a[2]");
+    private By submitBtn = By.xpath("//button[@type='submit']");
+    private By loginField = By.xpath("//input[@name='login']");
+    private By passwordField = By.xpath("//input[@name='passwd']");
+    private By sigInBtn = By.xpath("//button[@id='passp:sign-in']");
+    private By composeButton = By.xpath("//a[@href='#compose']");
 
 
     WebDriver driver;
@@ -26,31 +26,31 @@ public class LoginPage {
     public boolean login(String login, String password) {
         WebDriverWait wait = new WebDriverWait(driver, 10);
 
-        wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath(loginBtn)));
-        WebElement loginButtonOnStartPage = driver.findElement(By.xpath(loginBtn));
+        wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(loginBtn));
+        WebElement loginButtonOnStartPage = driver.findElement(loginBtn);
         wait.until(ExpectedConditions.elementToBeClickable(loginButtonOnStartPage));
         loginButtonOnStartPage.click();
 
-        wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath(loginField)));
-        WebElement loginInput = driver.findElement(By.xpath(loginField));
+        wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(loginField));
+        WebElement loginInput = driver.findElement(loginField);
         loginInput.sendKeys(login);
 
-        wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath(submitBtn)));
-        WebElement submitButton = driver.findElement(By.xpath(submitBtn));
+        wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(submitBtn));
+        WebElement submitButton = driver.findElement(submitBtn);
         wait.until(ExpectedConditions.elementToBeClickable(submitButton));
         submitButton.click();
 
-        wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath(passwordField)));
-        WebElement passwordF = driver.findElement(By.xpath(passwordField));
+        wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(passwordField));
+        WebElement passwordF = driver.findElement(passwordField);
         passwordF.sendKeys(password);
 
-        wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath(logInBtn2)));
-        WebElement loginButton2 = driver.findElement(By.xpath(logInBtn2));
+        wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(sigInBtn));
+        WebElement loginButton2 = driver.findElement(sigInBtn);
         wait.until(ExpectedConditions.elementToBeClickable(loginButton2));
         loginButton2.click();
 
-        wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath(composeButton)));
-        WebElement composeBtn = driver.findElement(By.xpath(composeButton));
+        wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(composeButton));
+        WebElement composeBtn = driver.findElement(composeButton);
         boolean result = composeBtn.isDisplayed();
         return result;
     }
