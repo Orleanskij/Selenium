@@ -51,8 +51,7 @@ public class LoginPage {
 
         wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(composeButton));
         WebElement composeBtn = driver.findElement(composeButton);
-        boolean result = composeBtn.isDisplayed();
-        return result;
+        return composeBtn.isDisplayed();
     }
 
 
