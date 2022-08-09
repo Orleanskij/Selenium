@@ -1,3 +1,4 @@
+import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
@@ -8,12 +9,12 @@ import pages.LoginPage;
 import util.Constants;
 
 
-public class LoginPageTest {
+public class LoginTest {
     WebDriver driver;
 
     @BeforeMethod(alwaysRun = true)
     public void preparingData() {
-        System.setProperty("webdriver.chrome.driver", "C:\\chromedriver_win32\\chromedriver.exe");
+        WebDriverManager.getInstance(ChromeDriver.class).setup();
         driver = new ChromeDriver();
     }
 
@@ -21,7 +22,8 @@ public class LoginPageTest {
     public void loginTest() {
         driver.get(Constants.YANDEX_URL);
         LoginPage loginPage = new LoginPage(driver);
-        Assert.assertTrue(loginPage.login(Constants.LOGIN_USER, Constants.PASSWORD_USER));
+        loginPage.login(Constants.LOGIN_USER, Constants.PASSWORD_USER);
+        Assert.assertTrue(loginPage.isComposeButtonDisplayed());
     }
 
     @AfterMethod(alwaysRun = true)
