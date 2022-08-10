@@ -8,6 +8,8 @@ import org.testng.annotations.Test;
 import pages.LoginPage;
 import util.Constants;
 
+import java.time.Duration;
+
 
 public class LoginTest {
     WebDriver driver;
@@ -16,6 +18,7 @@ public class LoginTest {
     public void preparingData() {
         WebDriverManager.getInstance(ChromeDriver.class).setup();
         driver = new ChromeDriver();
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(30));
     }
 
     @Test
