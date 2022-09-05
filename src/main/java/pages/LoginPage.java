@@ -3,6 +3,8 @@ package pages;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import static util.Constants.*;
 
@@ -23,7 +25,8 @@ public class LoginPage {
         this.driver = driver;
     }
 
-    public void login(String login, String password) {
+    public void login(String login, String password) throws InterruptedException {
+        Thread.sleep(1000);//Explicit wait
         WebElement loginButtonOnStartPage = driver.findElement(LOGIN_BUTTON);
         loginButtonOnStartPage.click();
         WebElement loginInput = driver.findElement(LOGIN_FIELD);
@@ -37,6 +40,8 @@ public class LoginPage {
     }
 
     public boolean isComposeButtonDisplayed() {
+        WebDriverWait wait = new WebDriverWait(driver, 10);
+        wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy((COMPOSE_BUTTON)));
         WebElement composeBtn = driver.findElement(COMPOSE_BUTTON);
         return composeBtn.isDisplayed();
     }
