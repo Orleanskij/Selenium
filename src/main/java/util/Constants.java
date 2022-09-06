@@ -9,6 +9,8 @@ public class Constants {
     public static final String MULTI_SELECT_URL = "https://demo.seleniumeasy.com/basic-select-dropdown-demo.html";
     public static final String ALERTS_URL = "https://demo.seleniumeasy.com/javascript-alert-box-demo.html";
     public static final String USERS_URL = "https://demo.seleniumeasy.com/dynamic-data-loading-demo.html";
+    public static final String DOWNLOAD_URL = "https://demo.seleniumeasy.com/bootstrap-download-progress-demo.html";
+    public static final String DOWNLOAD2_URL = "https://demo.seleniumeasy.com/table-sort-search-demo.html";
     public static final String LOGIN_USER = "petrorlyansky";
     public static final String PASSWORD_USER = "Ctktybev";
     public static final String LOGIN_USER2 = "credentials2";

@@ -6,6 +6,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.time.Duration;
+
 import static util.Constants.*;
 
 
@@ -40,7 +42,7 @@ public class LoginPage {
     }
 
     public boolean isComposeButtonDisplayed() {
-        WebDriverWait wait = new WebDriverWait(driver, 10);
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy((COMPOSE_BUTTON)));
         WebElement composeBtn = driver.findElement(COMPOSE_BUTTON);
         return composeBtn.isDisplayed();
