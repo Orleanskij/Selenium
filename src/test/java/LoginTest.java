@@ -26,7 +26,7 @@ public class LoginTest {
     WebDriver driver;
 
     public static final By clickMeBtn = By.xpath("//button[@class='btn btn-default btn-lg' and text() = 'Click me!']");
-    public static final By clickAlertBtn = By.xpath("//button[@class='btn btn-default btn-lg' and text() = 'Click for Prompt Box']");
+    public static final By clickAlertBtn = By.xpath("//button[contains(text(), 'Prompt Box')]");
     public static final By clickMeRandomBtn = By.xpath("//button[@class='btn btn-default']");
     public static final By percentage = By.xpath("//div[@class='percenttext']");
     public static final By clickBtnPercent = By.id("cricle-btn");
