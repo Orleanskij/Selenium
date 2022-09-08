@@ -25,15 +25,15 @@ import static util.Constants.DOWNLOAD_URL;
 public class LoginTest {
     WebDriver driver;
 
-    public static final By clickMeBtn = By.xpath("//button[@class='btn btn-default btn-lg' and text() = 'Click me!']");
-    public static final By clickAlertBtn = By.xpath("//button[contains(text(), 'Prompt Box')]");
-    public static final By clickMeRandomBtn = By.xpath("//button[@class='btn btn-default']");
-    public static final By percentage = By.xpath("//div[@class='percenttext']");
-    public static final By clickBtnPercent = By.id("cricle-btn");
-    public static final By newUser = By.xpath("//div[@id='loading']/img");
-    public static final By resultMsg = By.id("confirm-demo");
-    public static final By resultMsgAlert = By.id("prompt-demo");
-    public static final By states = By.name("States");
+    public static final By CLICK_ME_BUTTON = By.xpath("//button[@class='btn btn-default btn-lg' and text() = 'Click me!']");
+    public static final By CLICK_ALERT_BUTTON = By.xpath("//button[contains(text(), 'Prompt Box')]");
+    public static final By CLICK_ME_RANDOM_BUTTON = By.xpath("//button[@class='btn btn-default']");
+    public static final By PERCENTAGE = By.xpath("//div[@class='percenttext']");
+    public static final By CLICK_PERCENT_BUTTON = By.id("cricle-btn");
+    public static final By NEW_USER = By.xpath("//div[@id='loading']/img");
+    public static final By RESULT_MESSAGE = By.id("confirm-demo");
+    public static final By RESULT_MESSAGE_ALERT = By.id("prompt-demo");
+    public static final By STATES = By.name("States");
 
 
     @BeforeMethod(alwaysRun = true)
@@ -61,7 +61,7 @@ public class LoginTest {
     @Test
     public void multiSelectTest() {
         driver.get(Constants.MULTI_SELECT_URL);
-        WebElement selectElement = driver.findElement(states);
+        WebElement selectElement = driver.findElement(STATES);
         Select select = new Select(selectElement);
 
         List<String> expectedOptions = getRandomElements(3, select.getOptions().stream().map(WebElement::getText).collect(Collectors.toList()));
@@ -75,50 +75,38 @@ public class LoginTest {
     }
 
     public List<String> getRandomElements(int amount, List<String> list) {
-        ArrayList<String> returnList = new ArrayList<String>();
-        Random rand = new Random();
-
-        for (int i = 0; i < amount; i++) {
-            if (i > amount * 30) break;
-            int index = rand.nextInt(list.size());
-            String str = list.get(index);
-            if (returnList.contains(str)) {
-                i--;
-                continue;
-            }
-            returnList.add(str);
-        }
-        return returnList;
+        return new Random().ints(amount, 0, list.size()).boxed()
+                .map(i -> list.get(i)).collect(Collectors.toList());
     }
 
     @Test
     public void javaScriptConfirmBoxOKTest() {
         driver.get(Constants.ALERTS_URL);
-        WebElement clickMeButton = driver.findElement(clickMeBtn);
+        WebElement clickMeButton = driver.findElement(CLICK_ME_BUTTON);
         clickMeButton.click();
         driver.switchTo().alert().accept();
-        WebElement resultMessage = driver.findElement(resultMsg);
+        WebElement resultMessage = driver.findElement(RESULT_MESSAGE);
         Assert.assertEquals("You pressed OK!", resultMessage.getText());
     }
 
     @Test
     public void javaScriptConfirmBoxCancelTest() {
         driver.get(Constants.ALERTS_URL);
-        WebElement clickMeButton = driver.findElement(clickMeBtn);
+        WebElement clickMeButton = driver.findElement(CLICK_ME_BUTTON);
         clickMeButton.click();
         driver.switchTo().alert().dismiss();
-        WebElement resultMessage = driver.findElement(resultMsg);
+        WebElement resultMessage = driver.findElement(RESULT_MESSAGE);
         Assert.assertEquals("You pressed Cancel!", resultMessage.getText());
     }
 
     @Test
     public void javaScriptAlertBoxTest() {
         driver.get(Constants.ALERTS_URL);
-        WebElement clickMeButton = driver.findElement(clickAlertBtn);
+        WebElement clickMeButton = driver.findElement(CLICK_ALERT_BUTTON);
         clickMeButton.click();
         driver.switchTo().alert().sendKeys("Peter");
         driver.switchTo().alert().accept();
-        WebElement resultMessage = driver.findElement(resultMsgAlert);
+        WebElement resultMessage = driver.findElement(RESULT_MESSAGE_ALERT);
         Assert.assertEquals("You have entered 'Peter' !", resultMessage.getText());
     }
 
@@ -126,18 +114,18 @@ public class LoginTest {
     public void getRandomUserTest() {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         driver.get(Constants.USERS_URL);
-        WebElement clickMeButton = driver.findElement(clickMeRandomBtn);
+        WebElement clickMeButton = driver.findElement(CLICK_ME_RANDOM_BUTTON);
         clickMeButton.click();
-        wait.until(ExpectedConditions.visibilityOf(driver.findElement(newUser)));
-        WebElement newParticipant = driver.findElement(newUser);
+        wait.until(ExpectedConditions.visibilityOf(driver.findElement(NEW_USER)));
+        WebElement newParticipant = driver.findElement(NEW_USER);
         Assert.assertTrue(newParticipant.isDisplayed());
     }
 
     @Test
     public void downloadTest() {
         driver.get(DOWNLOAD_URL);
-        WebElement clickMeButton = driver.findElement(clickBtnPercent);
-        WebElement percent = driver.findElement(percentage);
+        WebElement clickMeButton = driver.findElement(CLICK_PERCENT_BUTTON);
+        WebElement percent = driver.findElement(PERCENTAGE);
 
         clickMeButton.click();
         new WebDriverWait(driver, Duration.ofSeconds(15), Duration.ofMillis(100))
