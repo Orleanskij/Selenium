@@ -1,6 +1,4 @@
-import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
@@ -8,8 +6,6 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import pages.LoginPage;
 import util.Constants;
-
-import java.time.Duration;
 
 import static util.Constants.*;
 
@@ -32,7 +28,7 @@ public class LoginTest {
     }
 
     @Test(dataProvider = "authentication")
-    public void loginTest(String username, String password) throws InterruptedException {
+    public void loginTest(String username, String password) {
         driver.get(Constants.YANDEX_URL);
         LoginPage loginPage = new LoginPage(driver);
         loginPage.login(username, password);
@@ -40,7 +36,7 @@ public class LoginTest {
     }
 
     @Test(dataProvider = "authentication")
-    public void logoutTest(String username, String password) throws InterruptedException {
+    public void logoutTest(String username, String password) {
         driver.get(Constants.YANDEX_URL);
         LoginPage loginPage = new LoginPage(driver);
         loginPage.login(username, password);
