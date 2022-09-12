@@ -14,5 +14,5 @@ public class Constants {
     /**
      * Locators
      */
-    public static final By LOGIN_BUTTON = By.xpath("//div[@class='PSHeader-Right']/button");
+
 }

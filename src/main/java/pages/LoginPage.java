@@ -38,6 +38,9 @@ public class LoginPage {
     @FindBy(xpath = "//a[@href='#compose']")
     WebElement composeButton;
 
+    @FindBy(xpath = "//div[@class='PSHeader-Right']/button")
+    WebElement loginBtn;
+
     public LoginPage(WebDriver driver) {
         this.driver = driver;
         PageFactory.initElements(driver, this);
@@ -56,9 +59,8 @@ public class LoginPage {
         logOut.click();
     }
 
-    public boolean isButtonDisplayed(By button) {
-        WebElement btn = driver.findElement(button);
-        return btn.isDisplayed();
+    public boolean isDisplayed() {
+        return loginBtn.isDisplayed();
     }
 
     public boolean isComposeButtonDisplayed() {

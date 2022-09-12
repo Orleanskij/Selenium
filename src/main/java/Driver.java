@@ -9,7 +9,7 @@ public class Driver {
     private static Driver instanceOfDriver = null;
     private WebDriver driver;
 
-    public Driver() {
+    private Driver() {
         WebDriverManager.getInstance(ChromeDriver.class).setup();
         driver = new ChromeDriver();
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
