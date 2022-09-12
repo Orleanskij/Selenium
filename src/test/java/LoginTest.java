@@ -7,41 +7,33 @@ import org.testng.annotations.Test;
 import pages.LoginPage;
 import util.Constants;
 
-import static util.Constants.*;
+import static util.Constants.LOGIN_USER;
+import static util.Constants.PASSWORD_USER;
 
 
 public class LoginTest {
     WebDriver driver;
+    LoginPage loginPage;
 
 
     @BeforeMethod(alwaysRun = true)
     public void preparingData() {
         Driver drv = Driver.getInstanceOfDriver();
         driver = drv.getDriver();
-    }
-
-    @DataProvider(name = "authentication")
-    public Object[][] dpMethod() {
-        return new Object[][]{
-                {Constants.LOGIN_USER, Constants.PASSWORD_USER}
-        };
-    }
-
-    @Test(dataProvider = "authentication")
-    public void loginTest(String username, String password) {
         driver.get(Constants.YANDEX_URL);
-        LoginPage loginPage = new LoginPage(driver);
-        loginPage.login(username, password);
+        loginPage = new LoginPage(driver);
+        loginPage.login(LOGIN_USER, PASSWORD_USER);
+    }
+
+    @Test()
+    public void loginTest() {
         Assert.assertTrue(loginPage.isComposeButtonDisplayed());
     }
 
-    @Test(dataProvider = "authentication")
-    public void logoutTest(String username, String password) {
-        driver.get(Constants.YANDEX_URL);
-        LoginPage loginPage = new LoginPage(driver);
-        loginPage.login(username, password);
+    @Test()
+    public void logoutTest() {
         loginPage.logout();
-        Assert.assertTrue(loginPage.isButtonDisplayed(LOGIN_BUTTON));
+        Assert.assertTrue(loginPage.isDisplayed());
     }
 
     @AfterMethod(alwaysRun = true)

@@ -19,6 +19,7 @@ public class LoginPage {
     private static final By COMPOSE_BTN = By.xpath("//a[@href='#compose']");
     private static final By USER_MENU = By.xpath("//div[@class='PSHeader-User']/div");
     private static final By LOGOUT_BUTTON = By.xpath("//li/a[contains(@class, 'exit')]");
+    private static final By LOGIN_BUTTON = By.xpath("//div[@class='PSHeader-Right']/button");
 
     WebDriver driver;
 
@@ -46,8 +47,8 @@ public class LoginPage {
         logout.click();
     }
 
-    public boolean isButtonDisplayed(By button) {
-        WebElement btn = driver.findElement(button);
+    public boolean isDisplayed() {
+        WebElement btn = driver.findElement(LOGIN_BUTTON);
         return btn.isDisplayed();
     }
 
