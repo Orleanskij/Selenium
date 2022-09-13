@@ -1,3 +1,6 @@
+import org.apache.commons.io.FileUtils;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
@@ -5,6 +8,9 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import pages.LoginPage;
 import util.Constants;
+
+import java.io.File;
+import java.io.IOException;
 
 import static util.Constants.*;
 
@@ -24,8 +30,10 @@ public class LoginTest {
     }
 
     @Test()
-    public void loginTest() {
+    public void loginTest() throws IOException {
         Assert.assertTrue(loginPage.isComposeButtonDisplayed());
+        File screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
+        FileUtils.copyFile(screenshot, new File("D:\\UnitTesting-master\\screenshots\\homepage.png"));
     }
 
     @Test()
