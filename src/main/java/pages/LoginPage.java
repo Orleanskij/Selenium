@@ -3,48 +3,69 @@ package pages;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
 
-import static util.Constants.*;
-
-
 public class LoginPage {
-
-    private static final By LOGIN_BTN = By.xpath("//div[@class='HeadBanner-ButtonsWrapper']/a[2]");
-    private static final By SUBMIT_BTN = By.cssSelector("[type=submit]");
-    private static final By LOGIN_FLD = By.name("login");
-    private static final By PASSWORD_FLD = By.xpath("//input[@name='passwd']");
-    private static final By SIG_IN_BTN = By.id("passp:sign-in");
-    private static final By COMPOSE_BTN = By.xpath("//a[@href='#compose']");
-
 
     WebDriver driver;
 
+    @FindBy(xpath = "//div[@class='PSHeader-User']/div")
+    WebElement userMenu;
+
+    @FindBy(xpath = "//li/a[contains(@class, 'exit')]")
+    WebElement logOut;
+
+    @FindBy(xpath = "//div[@class='PSHeader-Right']/button")
+    WebElement loginButton;
+
+    @FindBy(name = "login")
+    WebElement loginField;
+
+    @FindBy(css = "[type=submit]")
+    WebElement submitButton;
+
+    @FindBy(xpath = "//input[@name='passwd']")
+    WebElement passwordField;
+
+    @FindBy(id = "passp:sign-in")
+    WebElement sigInButton;
+
+    @FindBy(xpath = "//a[@href='#compose']")
+    WebElement composeButton;
+
+    @FindBy(xpath = "//div[@class='PSHeader-Right']/button")
+    WebElement loginBtn;
+
     public LoginPage(WebDriver driver) {
         this.driver = driver;
+        PageFactory.initElements(driver, this);
     }
 
-    public void login(String login, String password) throws InterruptedException {
-        Thread.sleep(1000);//Explicit wait
-        WebElement loginButtonOnStartPage = driver.findElement(LOGIN_BUTTON);
-        loginButtonOnStartPage.click();
-        WebElement loginInput = driver.findElement(LOGIN_FIELD);
-        loginInput.sendKeys(login);
-        WebElement submitButton = driver.findElement(SUBMIT_BUTTON);
+    public void login(String login, String password) {
+        loginButton.click();
+        loginField.sendKeys(login);
         submitButton.click();
-        WebElement passwordF = driver.findElement(PASSWORD_FIELD);
-        passwordF.sendKeys(password);
-        WebElement loginButton2 = driver.findElement(SIG_IN_BUTTON);
-        loginButton2.click();
+        passwordField.sendKeys(password);
+        sigInButton.click();
+    }
+
+    public void logout() {
+        userMenu.click();
+        logOut.click();
+    }
+
+    public boolean isDisplayed() {
+        return loginBtn.isDisplayed();
     }
 
     public boolean isComposeButtonDisplayed() {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-        wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy((COMPOSE_BUTTON)));
-        WebElement composeBtn = driver.findElement(COMPOSE_BUTTON);
-        return composeBtn.isDisplayed();
+        wait.until(ExpectedConditions.visibilityOfAllElements(composeButton));
+        return composeButton.isDisplayed();
     }
 }
