@@ -47,7 +47,6 @@ public class LoginTest {
     @Test(groups = "Log in/out test group")
     @TmsLink(value = "ID-002")
     @Description(value = "Log out Test")
-    @Step("Verify log out test")
     public void logoutTest() {
         loginPage.logout();
         Assert.assertTrue(loginPage.isDisplayed());
