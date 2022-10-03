@@ -1,30 +1,28 @@
-import io.qameta.allure.Allure;
 import io.qameta.allure.Description;
+import io.qameta.allure.Step;
 import io.qameta.allure.TmsLink;
 import org.apache.commons.io.FileUtils;
-import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.remote.RemoteWebDriver;
 import org.testng.Assert;
 import org.testng.ITestResult;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 import pages.LoginPage;
 import util.Constants;
 
 import java.io.IOException;
 
-import java.io.ByteArrayInputStream;
 import java.io.File;
 
 import static util.Constants.*;
 
-
+@Listeners(TestListener.class)
 public class LoginTest {
-    WebDriver driver;
+    public WebDriver driver;
     LoginPage loginPage;
 
 
@@ -49,6 +47,7 @@ public class LoginTest {
     @Test(groups = "Log in/out test group")
     @TmsLink(value = "ID-002")
     @Description(value = "Log out Test")
+    @Step("Verify log out test")
     public void logoutTest() {
         loginPage.logout();
         Assert.assertTrue(loginPage.isDisplayed());
@@ -56,11 +55,6 @@ public class LoginTest {
 
     @AfterMethod(alwaysRun = true)
     public void afterMethod(ITestResult result) {
-        if (ITestResult.FAILURE == result.getStatus()) {
-            Allure.addAttachment("test Failed with according screenshot", new ByteArrayInputStream(((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES)));
-            Capabilities caps = ((RemoteWebDriver) driver).getCapabilities();
-            Allure.addAttachment("Browser and browser version", caps.getBrowserName() + "; " + caps.getBrowserVersion());
-        }
         driver.quit();
     }
 }
