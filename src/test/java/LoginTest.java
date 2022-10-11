@@ -1,22 +1,17 @@
 import io.qameta.allure.Description;
-import io.qameta.allure.Step;
 import io.qameta.allure.TmsLink;
 import org.apache.commons.io.FileUtils;
-import org.openqa.selenium.OutputType;
-import org.openqa.selenium.TakesScreenshot;
-import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.*;
 import org.testng.Assert;
 import org.testng.ITestResult;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Listeners;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 import pages.LoginPage;
 import util.Constants;
 
 import java.io.IOException;
 
 import java.io.File;
+import java.net.MalformedURLException;
 
 import static util.Constants.*;
 
@@ -27,7 +22,7 @@ public class LoginTest {
 
 
     @BeforeMethod(alwaysRun = true)
-    public void preparingData() {
+    public void preparingData() throws MalformedURLException {
         Driver drv = Driver.getInstanceOfDriver();
         driver = drv.getDriver();
         driver.get(Constants.YANDEX_URL);

@@ -5,12 +5,19 @@ import org.openqa.selenium.WebDriver;
 import org.testng.ITestListener;
 import org.testng.ITestResult;
 
+import java.net.MalformedURLException;
+
 
 public class TestListener implements ITestListener {
 
     @Override
     public void onTestFailure(ITestResult result) {
-        WebDriver driver = Driver.getInstanceOfDriver().getDriver();
+        WebDriver driver = null;
+        try {
+            driver = Driver.getInstanceOfDriver().getDriver();
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
         takeScreenshot(driver);
     }
 
