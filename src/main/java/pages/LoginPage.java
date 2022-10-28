@@ -1,6 +1,5 @@
 package pages;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -14,58 +13,47 @@ public class LoginPage {
 
     WebDriver driver;
 
-    @FindBy(xpath = "//div[@class='PSHeader-User']/div")
-    WebElement userMenu;
+    @FindBy(id = "SubmitCreate")
+    WebElement createAnAccountButton;
 
-    @FindBy(xpath = "//li/a[contains(@class, 'exit')]")
-    WebElement logOut;
+    @FindBy(id = "email")
+    WebElement emailField;
 
-    @FindBy(xpath = "//div[@class='PSHeader-Right']/button")
-    WebElement loginButton;
-
-    @FindBy(name = "login")
-    WebElement loginField;
-
-    @FindBy(css = "[type=submit]")
-    WebElement submitButton;
-
-    @FindBy(xpath = "//input[@name='passwd']")
+    @FindBy(id = "passwd")
     WebElement passwordField;
 
-    @FindBy(id = "passp:sign-in")
-    WebElement sigInButton;
+    @FindBy(id = "SubmitLogin")
+    WebElement submitButton;
 
-    @FindBy(xpath = "//a[@href='#compose']")
-    WebElement composeButton;
-
-    @FindBy(xpath = "//div[@class='PSHeader-Right']/button")
-    WebElement loginBtn;
+    @FindBy(xpath = "//a[@class= 'logout']")
+    WebElement signOutButton;
 
     public LoginPage(WebDriver driver) {
         this.driver = driver;
         PageFactory.initElements(driver, this);
     }
 
-    public void login(String login, String password) {
-        loginButton.click();
-        loginField.sendKeys(login);
+    public void clickCreateAnAccount() {
+        createAnAccountButton.click();
+    }
+
+    public void clickSignInButton() {
         submitButton.click();
+    }
+
+    public void logInTheSystem(String email, String password) {
+        if (isSignOutButtonDisplayed()) {
+            signOutButton.click();
+        }
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(12));
+        wait.until(ExpectedConditions.visibilityOfAllElements(emailField));
+        emailField.sendKeys(email);
         passwordField.sendKeys(password);
-        sigInButton.click();
     }
 
-    public void logout() {
-        userMenu.click();
-        logOut.click();
-    }
-
-    public boolean isDisplayed() {
-        return loginBtn.isDisplayed();
-    }
-
-    public boolean isComposeButtonDisplayed() {
+    public boolean isSignOutButtonDisplayed() {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-        wait.until(ExpectedConditions.visibilityOfAllElements(composeButton));
-        return composeButton.isDisplayed();
+        wait.until(ExpectedConditions.visibilityOfAllElements(signOutButton));
+        return signOutButton.isDisplayed();
     }
 }
