@@ -1,17 +1,13 @@
 package pages;
 
-import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
-import java.time.Duration;
+import java.net.MalformedURLException;
 
-public class LoginPage {
-
-    WebDriver driver;
+public class LoginPage extends BasePage {
 
     @FindBy(id = "SubmitCreate")
     WebElement createAnAccountButton;
@@ -28,8 +24,8 @@ public class LoginPage {
     @FindBy(xpath = "//a[@class= 'logout']")
     WebElement signOutButton;
 
-    public LoginPage(WebDriver driver) {
-        this.driver = driver;
+    public LoginPage() throws MalformedURLException {
+        super();
         PageFactory.initElements(driver, this);
     }
 
@@ -45,15 +41,17 @@ public class LoginPage {
         if (isSignOutButtonDisplayed()) {
             signOutButton.click();
         }
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(12));
-        wait.until(ExpectedConditions.visibilityOfAllElements(emailField));
+        waiter.waifForWebElementVisibility(emailField);
         emailField.sendKeys(email);
         passwordField.sendKeys(password);
     }
 
     public boolean isSignOutButtonDisplayed() {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-        wait.until(ExpectedConditions.visibilityOfAllElements(signOutButton));
-        return signOutButton.isDisplayed();
+        waiter.waifForWebElementVisibility(signOutButton);
+        try {
+            return signOutButton.isDisplayed();
+        } catch (NoSuchElementException e) {
+            return false;
+        }
     }
 }

@@ -1,21 +1,17 @@
 package pages;
 
+import dto.User;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
-import java.time.Duration;
+import java.net.MalformedURLException;
 import java.util.List;
 
-import static util.RandomFieldPopulator.*;
-
-public class AccountPage {
-    WebDriver driver;
+public class AccountPage extends BasePage {
 
     @FindBy(id = "email_create")
     WebElement emailField;
@@ -53,9 +49,6 @@ public class AccountPage {
     @FindBy(xpath = "//h1[contains(text(), 'My account')]")
     WebElement myAccountLabel;
 
-    @FindBy(xpath = "//span[contains(text(), 'My wishlists')]")
-    WebElement myWishlists;
-
     @FindBy(xpath = "//table[@class='table table-bordered']/tbody/tr")
     List<WebElement> myWishlistsTable;
 
@@ -65,36 +58,31 @@ public class AccountPage {
     @FindBy(id = "submitWishlist")
     WebElement saveWishList;
 
+    private By closeButtonForWishList = By.xpath("//a[@class= 'icon']");
 
-    public AccountPage(WebDriver driver) {
-        this.driver = driver;
+    public AccountPage() throws MalformedURLException {
+        super();
         PageFactory.initElements(driver, this);
     }
 
     public void fillEmailField(String email) {
-        emailField.click();
         emailField.sendKeys(email);
-    }
-
-    public void fillPasswordField(String password) {
-        emailField.click();
-        emailField.sendKeys(password);
     }
 
     public void clickRegisterButton() {
         registerButton.click();
     }
 
-    public void fillRequiredFields() {
+    public void createUser(User user) {
         mrRadio.click();
-        firstNameField.sendKeys(generateFirstName());
-        lastNameField.sendKeys(generateLastName());
-        passwordField.sendKeys(generatePassword());
-        addressField.sendKeys("morozov street 64");
-        cityField.sendKeys("Brest");
-        postCodeField.sendKeys("12345");
-        selectState("Alabama");
-        phoneNumberField.sendKeys("291111111");
+        firstNameField.sendKeys(user.getFirstname());
+        lastNameField.sendKeys(user.getLastname());
+        passwordField.sendKeys(user.getPassword());
+        addressField.sendKeys(user.getAddress());
+        cityField.sendKeys(user.getCity());
+        postCodeField.sendKeys(user.getPostcode());
+        selectState(user.getState());
+        phoneNumberField.sendKeys(user.getPhoneNumber());
     }
 
     public void selectState(String state) {
@@ -103,19 +91,19 @@ public class AccountPage {
     }
 
     public boolean isMyAccountLabelDisplayed() {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-        wait.until(ExpectedConditions.visibilityOfAllElements(myAccountLabel));
-        return myAccountLabel.isDisplayed();
-    }
-
-    public void clickMyWishList() {
-        myWishlists.click();
+        waiter.waifForWebElementVisibility(myAccountLabel);
+        try {
+            return myAccountLabel.isDisplayed();
+        } catch (
+                NoSuchElementException e) {
+            return false;
+        }
     }
 
     public void clearWishList() {
         while (myWishlistsTable.size() != 0) {
             for (WebElement element : myWishlistsTable) {
-                WebElement deleteWishList = element.findElement(By.xpath("//a[@class= 'icon']"));
+                WebElement deleteWishList = element.findElement(closeButtonForWishList);
                 deleteWishList.click();
                 driver.switchTo().alert().accept();
             }
@@ -127,21 +115,11 @@ public class AccountPage {
         saveWishList.click();
     }
 
-    public boolean isAddedWishList() {
+    public boolean isWishListAdded() {
         return !myWishlistsTable.isEmpty();
     }
 
-    public boolean isProductAddedToWishList(String myWishlistName) {
-        int count = 0;
-        if (myWishlistsTable.size() != 0) {
-            for (WebElement element : myWishlistsTable) {
-                WebElement WishListNameColumn = element.findElement(By.xpath("//tbody/tr/td[1]/a"));
-                if (myWishlistName.contains(WishListNameColumn.getText())) {
-                    WebElement productWishListColumn = element.findElement(By.xpath("//tbody/tr/td[@class='bold align_center']"));
-                    count = Integer.parseInt(productWishListColumn.getText());
-                }
-            }
-        }
-        return count == 1;
+    public boolean isProductNameDisplayedUnWishList(String myWishlistName) {
+        return myWishlistsTable.stream().anyMatch(element -> element.getText().contains(myWishlistName));
     }
 }

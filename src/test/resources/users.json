@@ -1,0 +1,46 @@
+[
+  {
+    "firstname": "firstName",
+    "lastname": "lastName",
+    "email": "kr123a@mail.com",
+    "password": "3edc#EDC",
+    "address": "address",
+    "city": "Brest",
+    "state": "Alabama",
+    "postcode": "12345",
+    "phoneNumber": "375295555555"
+  },
+  {
+    "firstname": "firstName2",
+    "lastname": "lastName2",
+    "email": "kra@mail.com",
+    "password": "1qaz!QAZ",
+    "address": "address",
+    "city": "Brest",
+    "state": "Alabama",
+    "postcode": "54321",
+    "phoneNumber": "375296666666"
+  },
+  {
+    "firstname": "firstName2",
+    "lastname": "lastName2",
+    "email": "asdad@mail.com",
+    "password": "1qaz!QAZ",
+    "address": "address",
+    "city": "Brest",
+    "state": "Alabama",
+    "postcode": "54321",
+    "phoneNumber": "375296666666"
+  },
+  {
+    "firstname": "firstName2",
+    "lastname": "lastName2",
+    "email": "orlean@email.com",
+    "password": "123456789",
+    "address": "address",
+    "city": "Brest",
+    "state": "Alabama",
+    "postcode": "54321",
+    "phoneNumber": "375296666666"
+  }
+]

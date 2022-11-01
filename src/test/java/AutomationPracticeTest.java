@@ -1,8 +1,7 @@
+import dto.User;
 import io.qameta.allure.Description;
 import io.qameta.allure.TmsLink;
-import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
-import org.testng.ITestResult;
 import org.testng.annotations.*;
 import pages.*;
 
@@ -11,30 +10,21 @@ import java.net.MalformedURLException;
 
 import static util.Constants.*;
 import static util.RandomFieldPopulator.*;
+import static util.UserUtils.getUser;
 
 @Listeners(TestListener.class)
-public class AutomationPracticeTest {
-    public WebDriver driver;
-
-
-    @BeforeClass(alwaysRun = true)
-    public void preparingData() throws MalformedURLException {
-        Driver drv = Driver.getInstanceOfDriver();
-        driver = drv.getDriver();
-        driver.manage().window().maximize();
-    }
-
+public class AutomationPracticeTest extends BaseTest{
 
     @Test(groups = "registration test group")
     @TmsLink(value = "AP-001")
     @Description(value = "create account Test")
-    public void createAccountTest() {
-        driver.get(AUTOMATION_PRACTICE_ACCOUNT_URL);
-        LoginPage loginPage = new LoginPage(driver);
-        AccountPage accountPage = new AccountPage(driver);
+    public void createAccountTest() throws MalformedURLException {
+        LoginPage loginPage = new LoginPage();
+        AccountPage accountPage = new AccountPage();
+        User user = getUser(USA_USER);
         accountPage.fillEmailField(generateEmail());
         loginPage.clickCreateAnAccount();
-        accountPage.fillRequiredFields();
+        accountPage.createUser(user);
         accountPage.clickRegisterButton();
 
         Assert.assertTrue(accountPage.isMyAccountLabelDisplayed());
@@ -43,10 +33,10 @@ public class AutomationPracticeTest {
     @Test(groups = "Login test group")
     @TmsLink(value = "AP-002")
     @Description(value = "Log in Test")
-    public void logIntoAccountTest() {
-        driver.get(AUTOMATION_PRACTICE_ACCOUNT_URL);
-        LoginPage loginPage = new LoginPage(driver);
-        loginPage.logInTheSystem(EMAIL_USER, PASSWORD_USER);
+    public void logIntoAccountTest() throws MalformedURLException {
+        LoginPage loginPage = new LoginPage();
+        User user = getUser(EXIST_USER);
+        loginPage.logInTheSystem(user.getEmail(), user.getPassword());
         loginPage.clickSignInButton();
 
         Assert.assertTrue(loginPage.isSignOutButtonDisplayed());
@@ -55,67 +45,60 @@ public class AutomationPracticeTest {
     @Test(groups = "WishList group")
     @TmsLink(value = "AP-003")
     @Description(value = "Auto-Creating Wishlist Test")
-    public void createAutoCreatedWishlistTest() {
-        driver.get(AUTOMATION_PRACTICE_ACCOUNT_URL);
-        LoginPage loginPage = new LoginPage(driver);
-        loginPage.logInTheSystem(EMAIL_USER, PASSWORD_USER);
+    public void createAutoCreatedWishlistTest() throws MalformedURLException{
+        LoginPage loginPage = new LoginPage();
+        User user = getUser(EXIST_USER);
+        loginPage.logInTheSystem(user.getEmail(), user.getPassword());
         loginPage.clickSignInButton();
-        AccountPage accountPage = new AccountPage(driver);
-        MenuPage menuPage = new MenuPage(driver);
+        AccountPage accountPage = new AccountPage();
+        ItemPage menuPage = new ItemPage();
         menuPage.navigateTo(MY_WISHLIST_URL);
         accountPage.clearWishList();
         menuPage.navigateTo(T_SHIRT_MENU_URL);
-        menuPage.openFirstProduct();
+        menuPage.openRandomProduct();
         menuPage.clickToAddToWishList();
         menuPage.navigateTo(MY_WISHLIST_URL);
 
-        Assert.assertTrue(accountPage.isAddedWishList());
+        Assert.assertTrue(accountPage.isWishListAdded());
     }
 
     @Test(groups = "WishList group")
     @TmsLink(value = "AP-004")
     @Description(value = "Creating Wishlist Test")
-    public void createWishlistTest() {
-        driver.get(AUTOMATION_PRACTICE_ACCOUNT_URL);
-        LoginPage loginPage = new LoginPage(driver);
-        loginPage.logInTheSystem(EMAIL_USER, PASSWORD_USER);
+    public void createWishlistTest() throws MalformedURLException {
+        LoginPage loginPage = new LoginPage();
+        User user = getUser(EXIST_USER);
+        loginPage.logInTheSystem(user.getEmail(), user.getPassword());
         loginPage.clickSignInButton();
-        AccountPage accountPage = new AccountPage(driver);
-        MenuPage menuPage = new MenuPage(driver);
+        AccountPage accountPage = new AccountPage();
+        ItemPage menuPage = new ItemPage();
         menuPage.navigateTo(MY_WISHLIST_URL);
         accountPage.clearWishList();
         String wishListName = "orleanWishlist";
         accountPage.createWishList(wishListName);
         menuPage.navigateTo(T_SHIRT_MENU_URL);
-        menuPage.openFirstProduct();
+        menuPage.openRandomProduct();
         menuPage.clickToAddToWishList();
         menuPage.navigateTo(MY_WISHLIST_URL);
 
-        Assert.assertTrue(accountPage.isProductAddedToWishList(wishListName));
+        Assert.assertTrue(accountPage.isProductNameDisplayedUnWishList(wishListName));
     }
 
     @Test(groups = "ProductCart group")
     @TmsLink(value = "AP-005")
     @Description(value = "Adding product Test")
-    public void addProductsToCartTest() {
-        driver.get(AUTOMATION_PRACTICE_ACCOUNT_URL);
-        LoginPage loginPage = new LoginPage(driver);
-        loginPage.logInTheSystem(EMAIL_USER, PASSWORD_USER);
+    public void addProductsToCartTest() throws MalformedURLException{
+        LoginPage loginPage = new LoginPage();
+        User user = getUser(EXIST_USER);
+        loginPage.logInTheSystem(user.getEmail(), user.getPassword());
         loginPage.clickSignInButton();
-        MenuPage menuPage = new MenuPage(driver);
+        ItemPage menuPage = new ItemPage();
         menuPage.navigateTo(SUMMER_DRESS_CATEGORY_URL);
-        ProductPage productPage = new ProductPage(driver);
+        ProductPage productPage = new ProductPage();
         productPage.addProductCart(3);
-        int total = productPage.getTotal();
         menuPage.navigateTo(CART_URL);
-        CartPage cartPage = new CartPage(driver);
+        CartPage cartPage = new CartPage();
         Assert.assertTrue(cartPage.isAllProductsInTheCart(3));
-        Assert.assertTrue(cartPage.getTotalPrice() == total);
-    }
-
-
-    @AfterClass(alwaysRun = true)
-    public void afterMethod(ITestResult result) {
-        driver.quit();
+        Assert.assertTrue(cartPage.getTotalPrice() == cartPage.getSumPricesInCart());
     }
 }

@@ -10,4 +10,13 @@ public class Constants {
     public static final String CART_URL = "http://automationpractice.com/index.php?controller=order";
     public static final String EMAIL_USER = "orlean@email.com";
     public static final String PASSWORD_USER = "123456789";
+
+    public static final String GRID_URL = "http://localhost:4444";
+    public static final String USERNAME = "orlean88:";
+    public static final String ACCESS_KEY = "ec9bd097-9768-4317-b066-36e52ec4890f";
+    public static final String SAUCE_URL = "https://" + USERNAME + ACCESS_KEY + "@ondemand.eu-central-1.saucelabs.com:443/wd/hub";
+
+    public static final String USA_USER = "0";
+    public static final String CANADIAN_USER = "1";
+    public static final String EXIST_USER = "3";
 }
