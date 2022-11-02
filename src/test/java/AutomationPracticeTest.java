@@ -33,7 +33,7 @@ public class AutomationPracticeTest extends BaseTest {
     @TmsLink(value = "AP-002")
     @Description(value = "Log in Test")
     public void logIntoAccountTest() {
-        User user = getUser(EXIST_USER);
+        User user = getUser(EXISTING_USER);
         loginPage.logIn(user.getEmail(), user.getPassword());
         loginPage.clickSignInButton();
         Assert.assertTrue(loginPage.isSignOutButtonDisplayed());
@@ -43,7 +43,7 @@ public class AutomationPracticeTest extends BaseTest {
     @TmsLink(value = "AP-003")
     @Description(value = "Auto-Creating Wishlist Test")
     public void createAutoCreatedWishlistTest() {
-        User user = getUser(EXIST_USER);
+        User user = getUser(EXISTING_USER);
         loginPage.logIn(user.getEmail(), user.getPassword());
         accountPage = loginPage.clickSignInButton();
         wishlistPage = accountPage.navigateToWishlistPage();
@@ -60,7 +60,7 @@ public class AutomationPracticeTest extends BaseTest {
     @TmsLink(value = "AP-004")
     @Description(value = "Creating Wishlist Test")
     public void createWishlistTest() {
-        User user = getUser(EXIST_USER);
+        User user = getUser(EXISTING_USER);
         loginPage.logIn(user.getEmail(), user.getPassword());
         accountPage = loginPage.clickSignInButton();
         wishlistPage = accountPage.navigateToWishlistPage();

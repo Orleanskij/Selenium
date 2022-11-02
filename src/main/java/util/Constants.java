@@ -13,5 +13,5 @@ public class Constants {
 
     public static final String USA_USER = "0";
     public static final String CANADIAN_USER = "1";
-    public static final String EXIST_USER = "3";
+    public static final String EXISTING_USER = "3";
 }
