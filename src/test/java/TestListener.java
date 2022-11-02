@@ -12,7 +12,6 @@ import org.openqa.selenium.Capabilities;
 
 import org.openqa.selenium.remote.RemoteWebDriver;
 
-import java.net.MalformedURLException;
 import java.time.LocalDateTime;
 
 
@@ -20,12 +19,8 @@ public class TestListener implements ITestListener {
 
     @Override
     public void onTestFailure(ITestResult result) {
-        WebDriver driver = null;
-        try {
-            driver = Driver.getInstanceOfDriver().getDriver();
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
+        WebDriver driver;
+        driver = Driver.getInstance().getDriver();
         takeScreenshot(driver);
         Capabilities caps = ((RemoteWebDriver) driver).getCapabilities();
         Allure.parameter("time", LocalDateTime.now());

@@ -1,6 +1,7 @@
 package driver;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
+import lombok.SneakyThrows;
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.WebDriver;
@@ -10,7 +11,6 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.time.Duration;
 
@@ -22,19 +22,20 @@ public class Driver {
     private static final String BROWSER = StringUtils.defaultString(System.getProperty("browser"), "chrome");
     private static final String REMOTE_URL = StringUtils.defaultString(System.getProperty("remote"), "local");
 
-    private static Driver instanceOfDriver=null;
+    private static Driver instanceOfDriver = null;
     private WebDriver driver;
 
-    private Driver() throws MalformedURLException {
+    private Driver() {
         if (REMOTE_URL.equals("local")) {
-            getBrowser();
-            driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+            setDriver();
+            driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(15));
+            driver.manage().window().maximize();
         } else {
             driver = getRemote(REMOTE_URL, getCapabilities());
         }
     }
 
-    public WebDriver getBrowser() {
+    private WebDriver setDriver() {
         if (BROWSER.equals("chrome")) {
             WebDriverManager.getInstance(ChromeDriver.class).setup();
             driver = new ChromeDriver();
@@ -57,7 +58,8 @@ public class Driver {
         }
     }
 
-    public RemoteWebDriver getRemote(String remote, Capabilities options) throws MalformedURLException {
+    @SneakyThrows
+    public RemoteWebDriver getRemote(String remote, Capabilities options) {
         String url;
         if (remote.contains("saucelabs")) {
             url = SAUCE_URL;
@@ -68,7 +70,7 @@ public class Driver {
 
     }
 
-    public static Driver getInstanceOfDriver() throws MalformedURLException {
+    public static Driver getInstance() {
         if (instanceOfDriver == null) {
             instanceOfDriver = new Driver();
         }

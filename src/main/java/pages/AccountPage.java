@@ -1,20 +1,15 @@
 package pages;
 
 import dto.User;
-import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.Select;
 
-import java.net.MalformedURLException;
-import java.util.List;
+import static util.Constants.SUMMER_DRESS_CATEGORY_URL;
+import static util.TestUtils.isDisplayed;
 
 public class AccountPage extends BasePage {
-
-    @FindBy(id = "email_create")
-    WebElement emailField;
 
     @FindBy(id = "customer_firstname")
     WebElement firstNameField;
@@ -46,27 +41,15 @@ public class AccountPage extends BasePage {
     @FindBy(id = "id_state")
     WebElement stateDrd;
 
+    @FindBy(xpath = "//a[@title='My wishlists']")
+    WebElement wishlistButton;
+
     @FindBy(xpath = "//h1[contains(text(), 'My account')]")
     WebElement myAccountLabel;
 
-    @FindBy(xpath = "//table[@class='table table-bordered']/tbody/tr")
-    List<WebElement> myWishlistsTable;
-
-    @FindBy(id = "name")
-    WebElement wishListNameField;
-
-    @FindBy(id = "submitWishlist")
-    WebElement saveWishList;
-
-    private By closeButtonForWishList = By.xpath("//a[@class= 'icon']");
-
-    public AccountPage() throws MalformedURLException {
+    public AccountPage() {
         super();
         PageFactory.initElements(driver, this);
-    }
-
-    public void fillEmailField(String email) {
-        emailField.sendKeys(email);
     }
 
     public void clickRegisterButton() {
@@ -91,35 +74,16 @@ public class AccountPage extends BasePage {
     }
 
     public boolean isMyAccountLabelDisplayed() {
-        waiter.waifForWebElementVisibility(myAccountLabel);
-        try {
-            return myAccountLabel.isDisplayed();
-        } catch (
-                NoSuchElementException e) {
-            return false;
-        }
+        return isDisplayed(myAccountLabel);
     }
 
-    public void clearWishList() {
-        while (myWishlistsTable.size() != 0) {
-            for (WebElement element : myWishlistsTable) {
-                WebElement deleteWishList = element.findElement(closeButtonForWishList);
-                deleteWishList.click();
-                driver.switchTo().alert().accept();
-            }
-        }
+    public WishListPage navigateToWishlistPage() {
+        wishlistButton.click();
+        return new WishListPage();
     }
 
-    public void createWishList(String wishlistName) {
-        wishListNameField.sendKeys(wishlistName);
-        saveWishList.click();
-    }
-
-    public boolean isWishListAdded() {
-        return !myWishlistsTable.isEmpty();
-    }
-
-    public boolean isProductNameDisplayedUnWishList(String myWishlistName) {
-        return myWishlistsTable.stream().anyMatch(element -> element.getText().contains(myWishlistName));
+    public ProductPage NavigateToDRESSCategory() {
+        driver.get(SUMMER_DRESS_CATEGORY_URL);
+        return new ProductPage();
     }
 }

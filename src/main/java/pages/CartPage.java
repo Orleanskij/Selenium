@@ -4,7 +4,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
-import java.net.MalformedURLException;
 import java.util.List;
 
 public class CartPage extends BasePage {
@@ -17,28 +16,27 @@ public class CartPage extends BasePage {
     List<WebElement> pricesInTheColumns;
 
     @FindBy(xpath = "//tbody/tr")
-    List<WebElement> countProducts;
+    List<WebElement> items;
 
-
-    public CartPage() throws MalformedURLException {
+    public CartPage() {
         super();
         PageFactory.initElements(driver, this);
     }
 
-    public double getTotalPrice() {
+    public double getCartTotal() {
         return Double.parseDouble(totalPrice.getText().substring(1));
     }
 
-    public boolean isAllProductsInTheCart(int countProductsShouldBe) {
-        return countProductsShouldBe == countProducts.size();
+    public int getItemsQty() {
+        return items.size();
     }
 
-    public double getSumPricesInCart() {
-        double sumPrices = 0;
+    public double getItemsTotal() {
+        double total = 0;
         for (WebElement price : pricesInTheColumns) {
-            sumPrices = Double.parseDouble(price.getText().substring(1));
-            sumPrices += sumPrices;
+            total = Double.parseDouble(price.getText().substring(1));
+            total += total;
         }
-        return sumPrices;
+        return total;
     }
 }

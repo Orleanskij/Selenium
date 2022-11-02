@@ -1,30 +1,28 @@
 import driver.Driver;
 import io.qameta.allure.Step;
 import org.openqa.selenium.WebDriver;
-import org.testng.ITestResult;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
+import pages.LoginPage;
 
-import java.net.MalformedURLException;
 
 import static util.Constants.AUTOMATION_PRACTICE_ACCOUNT_URL;
 
 public class BaseTest {
 
     private WebDriver driver;
+    protected LoginPage loginPage;
 
-    @BeforeClass
+    @BeforeMethod
     @Step("Navigate to Home page")
-    void initializeDriver() throws MalformedURLException {
-        Driver drv = Driver.getInstanceOfDriver();
-        driver = drv.getDriver();
-        driver.manage().window().maximize();
-
+    void initializeDriver() {
+        driver = Driver.getInstance().getDriver();
         driver.get(AUTOMATION_PRACTICE_ACCOUNT_URL);
+        loginPage = new LoginPage();
     }
 
-    @AfterClass
-    public void afterMethod(ITestResult result) {
+    @AfterMethod
+    public void closeBrowser() {
         driver.quit();
     }
 }

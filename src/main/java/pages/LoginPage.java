@@ -1,11 +1,11 @@
 package pages;
 
-import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
-import java.net.MalformedURLException;
+
+import static util.TestUtils.isDisplayed;
 
 public class LoginPage extends BasePage {
 
@@ -13,10 +13,10 @@ public class LoginPage extends BasePage {
     WebElement createAnAccountButton;
 
     @FindBy(id = "email")
-    WebElement emailField;
+    WebElement loginEmail;
 
     @FindBy(id = "passwd")
-    WebElement passwordField;
+    WebElement loginPassword;
 
     @FindBy(id = "SubmitLogin")
     WebElement submitButton;
@@ -24,34 +24,34 @@ public class LoginPage extends BasePage {
     @FindBy(xpath = "//a[@class= 'logout']")
     WebElement signOutButton;
 
-    public LoginPage() throws MalformedURLException {
+    @FindBy(id = "email_create")
+    WebElement emailFieldCreateUser;
+
+    public LoginPage() {
         super();
         PageFactory.initElements(driver, this);
     }
 
-    public void clickCreateAnAccount() {
+    public AccountPage clickCreateAnAccount() {
         createAnAccountButton.click();
+        return new AccountPage();
     }
 
-    public void clickSignInButton() {
+    public AccountPage clickSignInButton() {
         submitButton.click();
+        return new AccountPage();
     }
 
-    public void logInTheSystem(String email, String password) {
-        if (isSignOutButtonDisplayed()) {
-            signOutButton.click();
-        }
-        waiter.waifForWebElementVisibility(emailField);
-        emailField.sendKeys(email);
-        passwordField.sendKeys(password);
+    public void fillEmailField(String email) {
+        emailFieldCreateUser.sendKeys(email);
+    }
+
+    public void logIn(String email, String password) {
+        loginEmail.sendKeys(email);
+        loginPassword.sendKeys(password);
     }
 
     public boolean isSignOutButtonDisplayed() {
-        waiter.waifForWebElementVisibility(signOutButton);
-        try {
-            return signOutButton.isDisplayed();
-        } catch (NoSuchElementException e) {
-            return false;
-        }
+        return isDisplayed(signOutButton);
     }
 }
