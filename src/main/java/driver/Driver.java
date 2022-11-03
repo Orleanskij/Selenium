@@ -35,7 +35,7 @@ public class Driver {
         }
     }
 
-    private WebDriver setDriver() {
+    private void setDriver() {
         if (BROWSER.equals("chrome")) {
             WebDriverManager.getInstance(ChromeDriver.class).setup();
             driver = new ChromeDriver();
@@ -43,7 +43,6 @@ public class Driver {
             WebDriverManager.getInstance(FirefoxDriver.class).setup();
             driver = new FirefoxDriver();
         }
-        return driver;
     }
 
     public Capabilities getCapabilities() {
@@ -75,6 +74,10 @@ public class Driver {
             instanceOfDriver = new Driver();
         }
         return instanceOfDriver;
+    }
+
+    public static void closeInstance(){
+        instanceOfDriver = null;
     }
 
     public WebDriver getDriver() {

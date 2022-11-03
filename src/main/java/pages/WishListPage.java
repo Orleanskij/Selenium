@@ -11,11 +11,6 @@ import static util.TestUtils.isDisplayed;
 
 public class WishListPage extends BasePage {
 
-    public WishListPage() {
-        super();
-        PageFactory.initElements(driver, this);
-    }
-
     @FindBy(xpath = "//table[@class='table table-bordered']/tbody/tr")
     List<WebElement> myWishlistsTable;
 
@@ -27,6 +22,11 @@ public class WishListPage extends BasePage {
 
     @FindBy(id = "name")
     WebElement wishListNameField;
+
+    public WishListPage() {
+        super();
+        PageFactory.initElements(driver, this);
+    }
 
     public void clearWishList() {
         if (isDisplayed(removeProductBtn)) {

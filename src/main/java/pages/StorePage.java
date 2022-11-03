@@ -13,14 +13,14 @@ public class StorePage extends BasePage {
     @FindBy(css = ".product_img_link")
     List<WebElement> items;
 
-    @FindBy(xpath = "//a[@class='product_img_link']")
-    List<WebElement> test;
-
     @FindBy(css = ".ajax_add_to_cart_button")
-    WebElement addToCartButton;
+    List<WebElement> addToCartButtonList;
 
     @FindBy(css = ".continue")
     WebElement continueShoppingButton;
+
+    @FindBy(xpath = "//a[@class='button lnk_view btn btn-default']")
+    List<WebElement> moreBtn;
 
     public StorePage() {
         super();
@@ -29,11 +29,12 @@ public class StorePage extends BasePage {
 
     public void addProductCart(int countProducts) {
         int count = 0;
-        while (count < countProducts) {
-            for (WebElement product : items) {
+
+        for (WebElement product : items) {
+            if (count < countProducts) {
                 utils.moveToElement(product);
-                waiter.waifForWebElementVisibility(addToCartButton);
-                addToCartButton.click();
+                waiter.waifForWebElementVisibility(addToCartButtonList.get(count));
+                addToCartButtonList.get(count).click();
                 waiter.waifForWebElementVisibility(continueShoppingButton);
                 continueShoppingButton.click();
                 waiter.waifForWebElementInVisibility(continueShoppingButton);
@@ -45,7 +46,8 @@ public class StorePage extends BasePage {
     public ProductPage openRandomProduct() {
         Random r = new Random();
         int randomValue = r.nextInt(items.size());
-        items.get(randomValue).click();
+        utils.moveToElement(items.get(randomValue));
+        moreBtn.get(randomValue).click();
         return new ProductPage();
     }
 

@@ -6,6 +6,8 @@ import org.testng.annotations.BeforeMethod;
 import pages.LoginPage;
 
 
+import static driver.Driver.closeInstance;
+import static driver.Driver.getInstance;
 import static util.Constants.AUTOMATION_PRACTICE_ACCOUNT_URL;
 
 public class BaseTest {
@@ -24,5 +26,6 @@ public class BaseTest {
     @AfterMethod
     public void closeBrowser() {
         driver.quit();
+        closeInstance();
     }
 }

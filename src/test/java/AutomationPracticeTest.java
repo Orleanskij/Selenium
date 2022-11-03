@@ -6,7 +6,7 @@ import org.testng.annotations.*;
 import pages.*;
 
 import static util.Constants.*;
-import static util.RandomFieldPopulator.*;
+import static util.TestUtils.generateEmail;
 import static util.TestUtils.getUser;
 
 @Listeners(TestListener.class)
@@ -19,7 +19,7 @@ public class AutomationPracticeTest extends BaseTest {
     private CartPage cartPage;
     private String wishListName = "orleanWishlist";
 
-    @Test(groups = "registration test group")
+    @Test(groups = "registration test group", priority = 1)
     @TmsLink(value = "AP-001")
     @Description(value = "create account Test")
     public void createAccountTest() {
@@ -31,7 +31,7 @@ public class AutomationPracticeTest extends BaseTest {
         Assert.assertTrue(accountPage.isMyAccountLabelDisplayed());
     }
 
-    @Test(groups = "Login test group")
+    @Test(groups = "Login test group", priority = 2)
     @TmsLink(value = "AP-002")
     @Description(value = "Log in Test")
     public void logIntoAccountTest() {
@@ -41,7 +41,7 @@ public class AutomationPracticeTest extends BaseTest {
         Assert.assertTrue(accountPage.isSignOutButtonDisplayed());
     }
 
-    @Test(groups = "WishList group")
+    @Test(groups = "WishList group", priority = 3)
     @TmsLink(value = "AP-003")
     @Description(value = "Auto-Creating Wishlist Test")
     public void createAutoCreatedWishlistTest() {
@@ -58,7 +58,7 @@ public class AutomationPracticeTest extends BaseTest {
         Assert.assertTrue(wishlistPage.isWishListAdded());
     }
 
-    @Test(groups = "WishList group")
+    @Test(groups = "WishList group", priority = 4)
     @TmsLink(value = "AP-004")
     @Description(value = "Creating Wishlist Test")
     public void createWishlistTest() {
@@ -76,7 +76,7 @@ public class AutomationPracticeTest extends BaseTest {
         Assert.assertTrue(wishlistPage.doesWishListContain(wishListName));
     }
 
-    @Test(groups = "ProductCart group")
+    @Test(groups = "ProductCart group", priority = 5)
     @TmsLink(value = "AP-005")
     @Description(value = "Adding product Test")
     public void addProductsToCartTest() {
