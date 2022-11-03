@@ -4,9 +4,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
-
-import static util.TestUtils.isDisplayed;
-
 public class LoginPage extends BasePage {
 
     @FindBy(id = "SubmitCreate")
@@ -21,9 +18,6 @@ public class LoginPage extends BasePage {
     @FindBy(id = "SubmitLogin")
     WebElement submitButton;
 
-    @FindBy(xpath = "//a[@class= 'logout']")
-    WebElement signOutButton;
-
     @FindBy(id = "email_create")
     WebElement emailFieldCreateUser;
 
@@ -32,9 +26,9 @@ public class LoginPage extends BasePage {
         PageFactory.initElements(driver, this);
     }
 
-    public AccountPage clickCreateAnAccount() {
+    public RegistrationPage clickCreateAnAccount() {
         createAnAccountButton.click();
-        return new AccountPage();
+        return new RegistrationPage();
     }
 
     public AccountPage clickSignInButton() {
@@ -49,9 +43,5 @@ public class LoginPage extends BasePage {
     public void logIn(String email, String password) {
         loginEmail.sendKeys(email);
         loginPassword.sendKeys(password);
-    }
-
-    public boolean isSignOutButtonDisplayed() {
-        return isDisplayed(signOutButton);
     }
 }

@@ -25,13 +25,12 @@ public class TestUtils {
     }
 
     public void moveToElement(WebElement element) {
-        if (System.getProperty("browser").equals("firefox")) {
-
-            ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", element);
-        } else {
+//        if (System.getProperty("browser").equals("firefox")) {
+//            ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", element);
+//        } else {
             Actions actions = new Actions(driver);
             actions.moveToElement(element).build().perform();
-        }
+//        }
     }
 
     static {

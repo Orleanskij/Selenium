@@ -18,4 +18,8 @@ public class Waiter {
     public void waifForWebElementVisibility(WebElement element) {
         new WebDriverWait(driver, Duration.ofSeconds(10)).until(ExpectedConditions.visibilityOf(element));
     }
+
+    public void waifForWebElementInVisibility(WebElement element) {
+        new WebDriverWait(driver, Duration.ofSeconds(10)).until(ExpectedConditions.invisibilityOf(element));
+    }
 }

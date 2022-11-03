@@ -3,8 +3,7 @@ package util;
 public class Constants {
 
     public static final String AUTOMATION_PRACTICE_ACCOUNT_URL = "http://automationpractice.com/index.php?controller=authentication&back=my-account";
-    public static final String T_SHIRT_MENU_URL = "http://automationpractice.com/index.php?id_category=5&controller=category";
-    public static final String SUMMER_DRESS_CATEGORY_URL = "http://automationpractice.com/index.php?id_category=11&controller=category";
+    public static final String WOMEN_CATEGORY = "WOMEN";
 
     public static final String GRID_URL = "http://localhost:4444";
     public static final String USERNAME = "orlean88:";

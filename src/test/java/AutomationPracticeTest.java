@@ -12,8 +12,10 @@ import static util.TestUtils.getUser;
 @Listeners(TestListener.class)
 public class AutomationPracticeTest extends BaseTest {
     private AccountPage accountPage;
+    private RegistrationPage registrationPage;
     private WishListPage wishlistPage;
     private ProductPage productPage;
+    private StorePage storePage;
     private CartPage cartPage;
     private String wishListName = "orleanWishlist";
 
@@ -23,9 +25,9 @@ public class AutomationPracticeTest extends BaseTest {
     public void createAccountTest() {
         User user = getUser(USA_USER);
         loginPage.fillEmailField(generateEmail());
-        accountPage = loginPage.clickCreateAnAccount();
-        accountPage.createUser(user);
-        accountPage.clickRegisterButton();
+        registrationPage = loginPage.clickCreateAnAccount();
+        registrationPage.createUser(user);
+        accountPage = registrationPage.clickRegisterButton();
         Assert.assertTrue(accountPage.isMyAccountLabelDisplayed());
     }
 
@@ -35,8 +37,8 @@ public class AutomationPracticeTest extends BaseTest {
     public void logIntoAccountTest() {
         User user = getUser(EXISTING_USER);
         loginPage.logIn(user.getEmail(), user.getPassword());
-        loginPage.clickSignInButton();
-        Assert.assertTrue(loginPage.isSignOutButtonDisplayed());
+        accountPage = loginPage.clickSignInButton();
+        Assert.assertTrue(accountPage.isSignOutButtonDisplayed());
     }
 
     @Test(groups = "WishList group")
@@ -46,13 +48,13 @@ public class AutomationPracticeTest extends BaseTest {
         User user = getUser(EXISTING_USER);
         loginPage.logIn(user.getEmail(), user.getPassword());
         accountPage = loginPage.clickSignInButton();
-        wishlistPage = accountPage.navigateToWishlistPage();
+        wishlistPage = accountPage.getHeader().navigateToWishlistPage();
         wishlistPage.clearWishList();
-        productPage = wishlistPage.NavigateToTSHIRTSCategory();
-        productPage.openRandomProduct();
+        storePage = wishlistPage.getHeader().navigateToCategory(WOMEN_CATEGORY);
+        productPage = storePage.openRandomProduct();
         productPage.clickAddToWishList();
-        accountPage = productPage.navigateToAccountMenu();
-        wishlistPage = accountPage.navigateToWishlistPage();
+        accountPage = productPage.getHeader().navigateToAccountMenu();
+        wishlistPage = accountPage.getHeader().navigateToWishlistPage();
         Assert.assertTrue(wishlistPage.isWishListAdded());
     }
 
@@ -63,14 +65,14 @@ public class AutomationPracticeTest extends BaseTest {
         User user = getUser(EXISTING_USER);
         loginPage.logIn(user.getEmail(), user.getPassword());
         accountPage = loginPage.clickSignInButton();
-        wishlistPage = accountPage.navigateToWishlistPage();
+        wishlistPage = accountPage.getHeader().navigateToWishlistPage();
         wishlistPage.clearWishList();
         wishlistPage.createWishList(wishListName);
-        productPage = wishlistPage.NavigateToTSHIRTSCategory();
-        productPage.openRandomProduct();
+        storePage = wishlistPage.getHeader().navigateToCategory(WOMEN_CATEGORY);
+        productPage = storePage.openRandomProduct();
         productPage.clickAddToWishList();
-        accountPage = productPage.navigateToAccountMenu();
-        wishlistPage = accountPage.navigateToWishlistPage();
+        accountPage = productPage.getHeader().navigateToAccountMenu();
+        wishlistPage = accountPage.getHeader().navigateToWishlistPage();
         Assert.assertTrue(wishlistPage.doesWishListContain(wishListName));
     }
 
@@ -80,13 +82,13 @@ public class AutomationPracticeTest extends BaseTest {
     public void addProductsToCartTest() {
         User user = getUser(USA_USER);
         loginPage.fillEmailField(generateEmail());
-        accountPage = loginPage.clickCreateAnAccount();
-        accountPage.createUser(user);
-        accountPage.clickRegisterButton();
-        productPage = accountPage.NavigateToDRESSCategory();
-        productPage.addProductCart(3);
-        cartPage = productPage.navigateToCart();
+        registrationPage = loginPage.clickCreateAnAccount();
+        registrationPage.createUser(user);
+        accountPage = registrationPage.clickRegisterButton();
+        storePage = accountPage.getHeader().navigateToCategory(WOMEN_CATEGORY);
+        storePage.addProductCart(3);
+        cartPage = storePage.getHeader().navigateToCart();
         Assert.assertEquals(3, cartPage.getItemsQty());
-        Assert.assertTrue(cartPage.getCartTotal() == cartPage.getItemsTotal());
+        Assert.assertEquals(cartPage.getCartTotal(), cartPage.getItemsTotal());
     }
 }

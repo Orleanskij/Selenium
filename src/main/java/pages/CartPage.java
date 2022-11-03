@@ -8,7 +8,6 @@ import java.util.List;
 
 public class CartPage extends BasePage {
 
-
     @FindBy(id = "total_price")
     WebElement totalPrice;
 

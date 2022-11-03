@@ -3,10 +3,10 @@ package pages;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import pages.section.Header;
 
 import java.util.List;
 
-import static util.Constants.T_SHIRT_MENU_URL;
 import static util.TestUtils.isDisplayed;
 
 public class WishListPage extends BasePage {
@@ -43,13 +43,12 @@ public class WishListPage extends BasePage {
         return myWishlistsTable.stream().anyMatch(element -> element.getText().contains(myWishlistName));
     }
 
-    public ProductPage NavigateToTSHIRTSCategory() {
-        driver.get(T_SHIRT_MENU_URL);
-        return new ProductPage();
-    }
-
     public void createWishList(String wishlistName) {
         wishListNameField.sendKeys(wishlistName);
         saveWishList.click();
+    }
+
+    public Header getHeader() {
+        return new Header();
     }
 }
