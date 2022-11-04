@@ -1,71 +1,47 @@
 package pages;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
-import java.time.Duration;
+public class LoginPage extends BasePage {
 
-public class LoginPage {
+    @FindBy(id = "SubmitCreate")
+    WebElement createAnAccountButton;
 
-    WebDriver driver;
+    @FindBy(id = "email")
+    WebElement loginEmail;
 
-    @FindBy(xpath = "//div[@class='PSHeader-User']/div")
-    WebElement userMenu;
+    @FindBy(id = "passwd")
+    WebElement loginPassword;
 
-    @FindBy(xpath = "//li/a[contains(@class, 'exit')]")
-    WebElement logOut;
-
-    @FindBy(xpath = "//div[@class='PSHeader-Right']/button")
-    WebElement loginButton;
-
-    @FindBy(name = "login")
-    WebElement loginField;
-
-    @FindBy(css = "[type=submit]")
+    @FindBy(id = "SubmitLogin")
     WebElement submitButton;
 
-    @FindBy(xpath = "//input[@name='passwd']")
-    WebElement passwordField;
+    @FindBy(id = "email_create")
+    WebElement emailFieldCreateUser;
 
-    @FindBy(id = "passp:sign-in")
-    WebElement sigInButton;
-
-    @FindBy(xpath = "//a[@href='#compose']")
-    WebElement composeButton;
-
-    @FindBy(xpath = "//div[@class='PSHeader-Right']/button")
-    WebElement loginBtn;
-
-    public LoginPage(WebDriver driver) {
-        this.driver = driver;
+    public LoginPage() {
+        super();
         PageFactory.initElements(driver, this);
     }
 
-    public void login(String login, String password) {
-        loginButton.click();
-        loginField.sendKeys(login);
+    public RegistrationPage clickCreateAnAccount() {
+        createAnAccountButton.click();
+        return new RegistrationPage();
+    }
+
+    public AccountPage clickSignInButton() {
         submitButton.click();
-        passwordField.sendKeys(password);
-        sigInButton.click();
+        return new AccountPage();
     }
 
-    public void logout() {
-        userMenu.click();
-        logOut.click();
+    public void fillEmailField(String email) {
+        emailFieldCreateUser.sendKeys(email);
     }
 
-    public boolean isDisplayed() {
-        return loginBtn.isDisplayed();
-    }
-
-    public boolean isComposeButtonDisplayed() {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-        wait.until(ExpectedConditions.visibilityOfAllElements(composeButton));
-        return composeButton.isDisplayed();
+    public void logIn(String email, String password) {
+        loginEmail.sendKeys(email);
+        loginPassword.sendKeys(password);
     }
 }
