@@ -3,6 +3,7 @@ package util;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.javafaker.Faker;
 import dto.User;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -25,8 +26,12 @@ public class TestUtils {
     }
 
     public void moveToElement(WebElement element) {
+        if (System.getProperty("browser").equals("firefox")) {
+            ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", element);
+        } else {
             Actions actions = new Actions(driver);
             actions.moveToElement(element).build().perform();
+        }
     }
 
     public static String generateEmail() {
